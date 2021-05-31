@@ -1,0 +1,168 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <title>Device Access Request</title>
+
+    <!-- Using Cisco UI Kit -->
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/cui-standard.min.css') }}">
+
+    <!-- Using AJAX to send get & post http requests -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+
+    <!-- Functions -->
+    <script>
+
+        // Submit clicked
+        function submit() {
+            user = document.getElementById("username").value;
+            new_group = document.getElementById("list_of_groups").value;
+            text = "Request to move user: " + user + " to group: " + new_group + " has been submitted!";
+            var submitButton = document.getElementById("submit-button");
+            submitButton.disabled = true;
+            var summaryArea = document.getElementById("summary");
+            summaryArea.value = text;
+            alert(text);
+
+            $.post('/request_submition',
+                {
+                    user_name: user,
+                    new_group_name: new_group
+                });
+
+        }
+
+    </script>
+
+</head>
+
+<body class="cui">
+
+    <!-- Main Header -->
+    <nav class="header" id="styleguideheader" role="navigation">
+        <div class="container-fluid">
+            <div class="header-panels">
+                <div class="header-panel hidden-md-down">
+                    <a class="header__logo" href="http://www.cisco.com" target="_blank">
+                        <span class="icon-cisco"></span>
+                    </a>
+                    <h1 class="header__title">
+                        <span>Device Access Request</span>
+                    </h1>
+                </div>
+                <div class="header-panel header-panel--center base-margin-left base-margin-right hidden-lg-up">
+                    <a class="header__logo" href="http://www.cisco.com" target="_blank">
+                        <span class="icon-cisco"></span>
+                    </a>
+                </div>
+                <div class="header-panel header-panel--right hidden-md-down">
+                    <a href="../settings" class="header-item" title="Settings"><span
+                            class="btn btn--ghost">Settings</span></a>
+                    <a href="../" class="header-item" title="Home"><span class="icon-home"></span></a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Content -->
+    <div class="content content--alt">
+        <div class="container-fluid">
+
+            <!-- Header Demo -->
+            <div class="panel panel--loose panel--raised base-margin-top">
+                <h4 class="title">Device Access Request - demo</h4>
+            </div>
+
+
+            <!-- Content -->
+            <div class="row">
+
+                <!-- Rail -->
+                <div class="col">
+                    <div class="section">
+
+                        <!-- User info Area -->
+                        <div class="panel panel--loose panel--raised base-margin-top">
+
+                            <!-- username Area -->
+                            <div class="form-group base-margin-top">
+                                <div class="form-group__text">
+                                    <label for="username">User:</label>
+                                    <textarea id="username" rows="1" class="hover"
+                                     disabled>{{ user_name }}</textarea>
+                                </div>
+                            </div>
+
+                            <!-- current group Area -->
+                            <div class="form-group base-margin-top">
+                                <div class="form-group__text">
+                                    <label for="current_group">Current group:</label>
+                                    <textarea id="current_group" rows="1" class="hover" disabled>{{ current_group_name }}</textarea>
+                                </div>
+                            </div>
+
+                            <!-- Choosing group Area -->
+                            <div class="form-group base-margin-top">
+                                <label for="list_of_groups">New group:</label>
+                                <select id="list_of_groups">
+                                    <ul>
+                                        {% for group in list_of_groups %}
+                                        <option class="btn btn--secondary" value={{ group }}>
+                                            {{ group }}
+                                        </option>
+                                        {% endfor %}
+                                    </ul>
+                                </select>
+                            </div>
+
+                            <!-- Submit Button -->
+                            <div class="form-group base-margin-top">
+                                <button id="submit-button" class="btn btn--primary" onclick="submit()">Submit change request</button>
+                            </div>
+
+
+                            <div class="form-group base-margin-top">
+                                <div class="form-group__text">
+                                    <textarea id="summary" disabled></textarea>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <footer class="footer">
+            <div class="footer__links">
+                <ul class="list list--inline">
+                    <li><a href="http://www.cisco.com/cisco/web/siteassets/contacts/index.html"
+                            target="_blank">Contacts</a>
+                    </li>
+                    <li><a href="https://secure.opinionlab.com/ccc01/o.asp?id=jBjOhqOJ" target="_blank">Feedback</a>
+                    </li>
+                    <li><a href="https://www.cisco.com/c/en/us/about/help.html" target="_blank">Help</a></li>
+                    <li><a href="http://www.cisco.com/c/en/us/about/sitemap.html" target="_blank">Site Map</a></li>
+                    <li><a href="https://www.cisco.com/c/en/us/about/legal/terms-conditions.html" target="_blank">Terms
+                            & Conditions</a></li>
+                    </li>
+                    <li><a href="https://www.cisco.com/c/en/us/about/legal/privacy-full.html" target="_blank">Privacy
+                            Statement</a></li>
+                    <li><a href="https://www.cisco.com/c/en/us/about/legal/privacy-full.html#cookies"
+                            target="_blank">Cookie
+                            Policy</a></li>
+                    <li><a href="https://www.cisco.com/c/en/us/about/legal/trademarks.html"
+                            target="_blank">Trademarks</a></li>
+                </ul>
+            </div>
+        </footer>
+
+    </div>
+
+
+</body>
+
+</html>
